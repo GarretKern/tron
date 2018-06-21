@@ -10,7 +10,7 @@ const boardHeight = 73;
 
 var board;
 var moving;
-var aiOn = false;
+var aiOn = true;
 
 const DIRECTION = {
   UP: [0, 1],
@@ -96,7 +96,6 @@ function movePlayers(){
   console.log("move");
   players[0].move()
   players[1].move()
-  //aiMoveFor(players[1]);
   const move1 = players[0].check()
   const move2 = players[1].check()
 
@@ -110,7 +109,7 @@ function movePlayers(){
     }
   } else {
     if (aiOn){
-      searchAi(players[1], players[0]);
+      minmaxAi(players[1], players[0]);
     }
   }
 }
@@ -123,7 +122,7 @@ function searchAi(player1, player2){
   tempPos[1] = player1.pos[1] + player1.dir[1];
   search2 = new Search(player2.pos[0], player2.pos[1], board).getSearchBoard()
 
-  let maxReachable = -1;
+  let maxReachable = -1000;
   let bestDirection = player1.dir;
   for (var key in DIRECTION) {
     if (DIRECTION.hasOwnProperty(key)) {
@@ -144,8 +143,37 @@ function searchAi(player1, player2){
   player1.dir = bestDirection
 }
 
+// Adds AI to initial player
+function minmaxAi(player1, player2){
 
-function aiMoveFor(player){
+  let tempPos = [];
+  tempPos[0] = player1.pos[0] + player1.dir[0];
+  tempPos[1] = player1.pos[1] + player1.dir[1];
+  search2 = new Search(player2.pos[0], player2.pos[1], board).getSearchBoard()
+
+  let maxReachable = -10000;
+  let bestDirection = player1.dir;
+  for (var key in DIRECTION) {
+    if (DIRECTION.hasOwnProperty(key)) {
+      let tempDir = DIRECTION[key]
+      tempPos[0] = player1.pos[0] + tempDir[0];
+      tempPos[1] = player1.pos[1] + tempDir[1];
+
+      if (board.inBounds(tempPos[0], tempPos[1]) && board.matrix[tempPos[0]][tempPos[1]] === 0){
+        search1 = new Search(tempPos[0], tempPos[1], board).getSearchBoard()
+        reachable = minmaxReach(search1, search2)
+        if (reachable > maxReachable){
+          maxReachable = reachable;
+          bestDirection = tempDir
+        }
+      }
+    }
+  }
+  player1.dir = bestDirection
+}
+
+
+function randomAI(player){
   const tempPos = [];
   tempPos[0] = player.pos[0] + player.dir[0];
   tempPos[1] = player.pos[1] + player.dir[1];
@@ -264,6 +292,24 @@ function compareReach(search1, search2){
   }
 
   return count;
+}
+
+function minmaxReach(search1, search2){
+  count1 = 0
+  count2 = 0
+
+  for (let i = 0; i < search1.width; i++) {
+    for (let j = 0; j < search1.height; j++) {
+      if (search1.matrix[i][j] != 0 && search1.matrix[i][j] != -1 && (search1.matrix[i][j] < search2.matrix[i][j] || search2.matrix[i][j] == 0)){
+        count1 += 1;
+      }
+      if (search2.matrix[i][j] != 0 && search2.matrix[i][j] != -1 && (search2.matrix[i][j] < search1.matrix[i][j] || search1.matrix[i][j] == 0)){
+        count2 += 1;
+      }
+    }
+  }
+
+  return count1 * 3 - count2;
 }
 
 class Search {
