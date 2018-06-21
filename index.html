@@ -6,12 +6,14 @@
 
   <body>
 
-    <canvas id="canvas" width="950" height="730"
-      style="border:10px solid #000000;">
+    <canvas id="canvas" width="950" height="730">
     </canvas>
 
     <div id="container" width="950">
-      <img id = "reset" src="./images/replay.png" alt="Pause" onclick="start()" />
+      <img id = "button" src="./images/replay.png" alt="Pause" onclick="start()" />
+      <img id = "button" src="./images/robot_black.png" alt="Pause" onclick="toggleAi()" />
+      <img id = "rightbutton" src="./images/question.png" alt="Pause" onclick="help()" />
+
     </div>
 
     <link rel="stylesheet" type="text/css" href="./src/style.css">

@@ -7,7 +7,7 @@ let mainWindow
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 1000, height: 880, title:"Tron", icon: "./images/disc.png"})
+  mainWindow = new BrowserWindow({width: 900, height: 800, title:"Tron", icon: "./images/disc.png"})
 
   // and load the index.html of the app.
   mainWindow.loadFile('index.html')
