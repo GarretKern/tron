@@ -113,6 +113,7 @@ function movePlayers(){
   } else {
     if (aiOn){
       console.log("start ai");
+      randomAI(players[1])
       minmaxAi(players[1], players[0]);
       console.log("done ai");
     }
