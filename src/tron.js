@@ -2,7 +2,7 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 const moveUnit = 10;
-const timeUnit = 40;
+const timeUnit = 45;
 const moveOffsetUnit = 1;
 const scale = 10; // scale * board size = canvas size
 const boardWidth = canvas.width/moveUnit;
@@ -94,6 +94,7 @@ var players = [];
 $(document).ready(() => {
   addKeyListen();
   start();
+  help()
 });
 
 function movePlayers(){
