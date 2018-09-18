@@ -17,7 +17,7 @@
   "author": "Garret Kern",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^2.0.0"
+    "electron": "^2.0.9"
   },
   "dependencies": {
     "jquery": "^3.3.1"
