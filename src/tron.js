@@ -5,8 +5,12 @@ const moveUnit = 10;
 const timeUnit = 50;
 const moveOffsetUnit = 1;
 const scale = 10; // scale * board size = canvas size
-const boardWidth = 95;
-const boardHeight = 73;
+const boardWidth = canvas.width/moveUnit;
+const boardHeight = canvas.height/moveUnit;
+const p1startx = 19;
+const p1starty = 30;
+const p2startx = 56;
+const p2starty = 30;
 
 var board;
 var moving;
@@ -207,8 +211,8 @@ function randomDirection(){
 function reset(){
   clearInterval(moving);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  players[0] = new Player(20, 37, DIRECTION.RIGHT, p1Color, p1Trail, "Red");
-  players[1] = new Player(75, 37, DIRECTION.LEFT, p2Color, p2Trail, "Blue");
+  players[0] = new Player(p1startx, p1starty, DIRECTION.RIGHT, p1Color, p1Trail, "Red");
+  players[1] = new Player(p2startx, p2starty, DIRECTION.LEFT, p2Color, p2Trail, "Blue");
   board = new Board(boardWidth, boardHeight);
 }
 
@@ -226,7 +230,12 @@ function help(){
 
 function toggleAi(){
   aiOn = !aiOn
-  start()
+  if (aiOn){
+     document.getElementById("ai").src = "./images/robot_blue.png";
+  } else {
+    document.getElementById("ai").src = "./images/robot_black.png";
+  }
+  //start()
 }
 
 function start(){

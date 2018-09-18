@@ -5,20 +5,20 @@
   </head>
 
   <body>
-
-    <canvas id="canvas" width="950" height="730">
+  <div id = "all">
+    <canvas id="canvas" width="750" height="600">
     </canvas>
 
-    <div id="container" width="950">
-      <img id = "button" src="./images/replay.png" alt="Pause" onclick="start()" />
-      <img id = "button" src="./images/robot_black.png" alt="Pause" onclick="toggleAi()" />
+    <div id="container">
+      <img class = "button" src="./images/replay.png" alt="Pause" onclick="start()" />
+      <img class = "button" id = "ai" src="./images/robot_blue.png" alt="Pause" onclick="toggleAi()" />
       <img id = "rightbutton" src="./images/question.png" alt="Pause" onclick="help()" />
-
     </div>
 
     <link rel="stylesheet" type="text/css" href="./src/style.css">
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="./src/jquery-3.3.1.min.js"></script>
     <script src='./src/tron.js'>start()</script>
+  </div>
   </body>
 </html>

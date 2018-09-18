@@ -1,68 +1,33 @@
 #container
 {
-  width: 100vh;
-  height: 5vh;
-  border: 1vh solid #A9A9A9;
+  border: 10px solid #A9A9A9;
+  width: 750px;
 }
 #canvas
 {
-  height: 80vh;
-  width: 100vh;
-  border:1vh solid #000000
+  border: 10px solid #000000;
 }
 
-#button
+#all
+{
+  width: 750px;
+  margin: 0 auto;
+}
+
+.button
 {
   width: 4.5vh;
   left: 3vh;
   cursor: pointer;
   height: 4.8vh;
-  margin-right: 1vh;
+  margin-right: 20px;
 }
 
 #rightbutton
 {
-  width: 4.5vh;
-  left: 3vh;
+  width: 20px;
   cursor: pointer;
-  height: 4.8vh;
-  margin-left: 92vh;
-  position:absolute;
-}
-
-
-@media only screen and (max-width: 110vh) {
-
-  #canvas
-  {
-    height: 70vw;
-    width: 90vw;
-    border:1vw solid #000000
-  }
-  #container
-  {
-    width: 90vw;
-    height: 5vw;
-    border:1vw solid #A9A9A9;
-    font-size: 18pt;
-  }
-
-  #button
-  {
-    width: 4.5vw;
-    cursor: pointer;
-    margin-right: 1vw;
-    height: 5vw;
-    left: 3vw;
-  }
-
-  #rightbutton
-  {
-    width: 4.5vw;
-    left: 3vw;
-    cursor: pointer;
-    height: 4.8vw;
-    margin-left: 82vw;
-    position:absolute;
-  }
+  height: 40px;
+  left: 600px;
+  position: relative;
 }
