@@ -2,7 +2,7 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 const moveUnit = 10;
-const timeUnit = 50;
+const timeUnit = 40;
 const moveOffsetUnit = 1;
 const scale = 10; // scale * board size = canvas size
 const boardWidth = canvas.width/moveUnit;
@@ -97,7 +97,6 @@ $(document).ready(() => {
 });
 
 function movePlayers(){
-  console.log("move");
   players[0].move()
   players[1].move()
   const move1 = players[0].check()
@@ -113,7 +112,9 @@ function movePlayers(){
     }
   } else {
     if (aiOn){
+      console.log("start ai");
       minmaxAi(players[1], players[0]);
+      console.log("done ai");
     }
   }
 }

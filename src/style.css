@@ -14,20 +14,30 @@
   margin: 0 auto;
 }
 
+#ai
+{
+  width: 35px;
+  height: 45px;
+}
+
+#start
+{
+  width: 45px;
+  height: 45px;
+}
+
 .button
 {
-  width: 4.5vh;
-  left: 3vh;
+  left: 10px;
   cursor: pointer;
-  height: 4.8vh;
   margin-right: 20px;
 }
 
 #rightbutton
 {
-  width: 20px;
+  width: 40px;
   cursor: pointer;
-  height: 40px;
-  left: 600px;
+  height: 45px;
+  left: 580px;
   position: relative;
 }
