@@ -2,4 +2,6 @@
 
 Desktop app created with electron.js based on the lighcycling game tron
 
-![Alt text]![Alt text](./tron.png?raw=true "Title")
+<p align="center">
+  <img src="./images/tron.png" width="350" title="Tron">
+</p>
