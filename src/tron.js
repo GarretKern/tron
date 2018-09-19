@@ -9,8 +9,8 @@ var aiOn = true;
 var players = [];
 
 // Declare consts for easy access to change
-const timeUnit = 40; // time between each step
-const moveOffsetUnit = 0; // border left when moved
+const timeUnit = 75; // time between each step
+const moveOffsetUnit = 1; // border left when moved
 const scale = 10; // scale * board size = canvas size
 const boardWidth = canvas.width/scale;
 const boardHeight = canvas.height/scale;
