@@ -7,9 +7,9 @@ const moveOffsetUnit = 1;
 const scale = 10; // scale * board size = canvas size
 const boardWidth = canvas.width/moveUnit;
 const boardHeight = canvas.height/moveUnit;
-const p1startx = 19;
+const p1startx = 16;
 const p1starty = 30;
-const p2startx = 56;
+const p2startx = 49;
 const p2starty = 30;
 
 var board;
@@ -71,7 +71,7 @@ class Player {
   check(){
     ctx.fillStyle = this.color
     if (board.inBounds(this.pos[0],this.pos[1]) && board.matrix[this.pos[0]][this.pos[1]] === 1){
-      ctx.fillRect(this.pos[0]*scale, this.pos[1]*scale, moveUnit - moveOffsetUnit, moveUnit - moveOffsetUnit);
+      ctx.fillRect(this.pos[0] * scale, this.pos[1] * scale, moveUnit - moveOffsetUnit, moveUnit - moveOffsetUnit);
       return true;
     } else {
       ctx.fillStyle = "#590059";
@@ -112,11 +112,8 @@ function movePlayers(){
       stop(players[0].name);
     }
   } else {
-    if (aiOn){
-      console.log("start ai");
-      randomAI(players[1])
-      minmaxAi(players[1], players[0]);
-      console.log("done ai");
+    if (aiOn) {
+      searchAi(players[1], players[0]);
     }
   }
 }
@@ -220,9 +217,8 @@ function reset(){
 }
 
 function help(){
-
   reset()
-  ctx.font="26px Verdana";
+  ctx.font="20px Verdana";
   ctx.fillStyle = "#a44f54";
   ctx.textAlign = "center";
   ctx.fillText("Avoid walls and opponent's tails", canvas.width/2, canvas.height/5);
@@ -238,7 +234,6 @@ function toggleAi(){
   } else {
     document.getElementById("ai").src = "./images/robot_black.png";
   }
-  //start()
 }
 
 function start(){
@@ -368,17 +363,34 @@ class Search {
       // make the board position equal to val
     // if queue is not empty call searchStep on the last element of queue and remove that element from queue
 
-    if (this.isValidStep(position.x + 1, position.y)) {
-      this.calcStep(new Position(position.x + 1, position.y, position.val + 1))
+    var x = position.x + 1;
+    var y = position.y;
+    var newpos;
+    if (this.board.inBounds(x, y) && this.board.matrix[x][y] == 0) {
+      newpos = new Position(x, y, position.val + 1)
+      this.board.matrix[x][y] = newpos.val
+      this.queue.push(newpos)
     }
-    if (this.isValidStep(position.x - 1, position.y)) {
-      this.calcStep(new Position(position.x - 1, position.y, position.val + 1))
+    x = position.x - 1
+    y = position.y
+    if (this.board.inBounds(x, y) && this.board.matrix[x][y] == 0) {
+      newpos = new Position(x, y, position.val + 1)
+      this.board.matrix[x][y] = newpos.val
+      this.queue.push(newpos)
     }
-    if (this.isValidStep(position.x, position.y + 1)) {
-      this.calcStep(new Position(position.x, position.y + 1, position.val + 1))
+    x = position.x
+    y = position.y + 1
+    if (this.board.inBounds(x, y) && this.board.matrix[x][y] == 0) {
+      newpos = new Position(x, y, position.val + 1)
+      this.board.matrix[x][y] = newpos.val
+      this.queue.push(newpos)
     }
-    if (this.isValidStep(position.x, position.y - 1)) {
-      this.calcStep(new Position(position.x, position.y - 1, position.val + 1))
+    x = position.x
+    y = position.y - 1
+    if (this.board.inBounds(x, y) && this.board.matrix[x][y] == 0) {
+      newpos = new Position(x, y, position.val + 1)
+      this.board.matrix[x][y] = newpos.val
+      this.queue.push(newpos)
     }
 
     if (this.queue.length > 0){

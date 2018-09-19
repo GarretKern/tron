@@ -1,7 +1,7 @@
 #container
 {
   border: 10px solid #A9A9A9;
-  width: 750px;
+  width: 650px;
 }
 #canvas
 {
@@ -10,8 +10,9 @@
 
 #all
 {
-  width: 750px;
+  width: 650px;
   margin: 0 auto;
+  margin-top: 20px;
 }
 
 #ai
@@ -35,9 +36,9 @@
 
 #rightbutton
 {
-  width: 40px;
+  width: 35px;
   cursor: pointer;
-  height: 45px;
-  left: 580px;
+  height: 42px;
+  left: 480px;
   position: relative;
 }
