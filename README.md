@@ -2,4 +2,4 @@
 
 Desktop app created with electron.js based on the lighcycling game tron
 
-![Alt text](./tron,png?raw=true "Tron")
+![Alt text](./tron,png)
