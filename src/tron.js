@@ -1,23 +1,31 @@
 // Tron by Garret Kern
 
-// Declare consts for easy access to change
+// Declare global variables
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
+var board;
+var moving;
+var aiOn = true;
+var players = [];
+
+// Declare consts for easy access to change
 const timeUnit = 40; // time between each step
-const moveOffsetUnit = 0;
+const moveOffsetUnit = 0; // border left when moved
 const scale = 10; // scale * board size = canvas size
 const boardWidth = canvas.width/scale;
 const boardHeight = canvas.height/scale;
-// Start positions
+
+// Start positions and colors
 const p1startx = 16;
 const p1starty = 30;
 const p2startx = 49;
 const p2starty = 30;
+const p1Color = "#a44f54";
+const p2Color = "#4e8c99";
+const p1Trail = "#FF7D7D"
+const p2Trail = "#7DFDFE"
 
-var board;
-var moving;
-var aiOn = true;
-
+// Directions
 const DIRECTION = {
   UP: [0, 1],
   DOWN: [0, -1],
@@ -25,80 +33,14 @@ const DIRECTION = {
   RIGHT: [1, 0],
 }
 
-class Board {
-  constructor(width, height) {
-    this.width = width;
-    this.height = height;
-    let matrix = new Array(width);
-
-    for (let i = 0; i < width; i++) {
-      matrix[i] = new Array(height);
-      for (let j = 0; j < height; j++) {
-        matrix[i][j] = 0;
-      }
-    }
-
-    this.matrix = matrix
-  }
-
-  inBounds(x, y){
-    if (board.matrix[x] != undefined && board.matrix[x][y] != undefined){
-      return true;
-    } else {
-      return false;
-    }
-  }
-}
-
-class Player {
-  constructor(startx, starty, direction, color, trail, name) {
-    this.pos = [startx, starty];
-    this.dir = direction;
-    this.color = color;
-    this.name = name;
-    this.trail = trail;
-  }
-
-  move(){
-    ctx.fillStyle = this.trail
-    ctx.fillRect(this.pos[0]*scale, this.pos[1]*scale, scale - moveOffsetUnit, scale - moveOffsetUnit);
-
-    this.pos[0] += this.dir[0];
-    this.pos[1] += this.dir[1];
-    if (board.inBounds(this.pos[0],this.pos[1])){
-      board.matrix[this.pos[0]][this.pos[1]] += 1;
-    }
-  }
-
-  check(){
-    ctx.fillStyle = this.color
-    if (board.inBounds(this.pos[0],this.pos[1]) && board.matrix[this.pos[0]][this.pos[1]] === 1){
-      ctx.fillRect(this.pos[0] * scale, this.pos[1] * scale, scale - moveOffsetUnit, scale - moveOffsetUnit);
-      return true;
-    } else {
-      ctx.fillStyle = "#590059";
-      if (board.inBounds(this.pos[0],this.pos[1])){
-        ctx.fillRect(this.pos[0] * scale, this.pos[1] * scale, scale - moveOffsetUnit, scale - moveOffsetUnit);
-      } else {
-        ctx.fillRect((this.pos[0] - this.dir[0]) * scale, (this.pos[1] - this.dir[1]) * scale, scale - moveOffsetUnit, scale - moveOffsetUnit);
-      }
-      return false;
-    }
-  }
-}
-
-const p1Color = "#a44f54";
-const p2Color = "#4e8c99";
-const p1Trail = "#FF7D7D"
-const p2Trail = "#7DFDFE"
-var players = [];
-
+// On load
 $(document).ready(() => {
   addKeyListen();
   start();
   help()
 });
 
+// move both players, check new positions
 function movePlayers(){
   players[0].move()
   players[1].move()
@@ -120,7 +62,7 @@ function movePlayers(){
   }
 }
 
-// Adds AI to initial player
+// decide AI move (ai is player 1), needs to know where other player is
 function searchAi(player1, player2){
 
   let tempPos = [];
@@ -178,7 +120,7 @@ function minmaxAi(player1, player2){
   player1.dir = bestDirection
 }
 
-
+// An AI that chooses random directions when it needs to move
 function randomAI(player){
   const tempPos = [];
   tempPos[0] = player.pos[0] + player.dir[0];
@@ -196,7 +138,7 @@ function randomAI(player){
   }
 }
 
-
+// Picks a random direction
 function randomDirection(){
   const random = Math.floor(Math.random() * 4);
   if (random === 0){
@@ -210,6 +152,7 @@ function randomDirection(){
   }
 }
 
+// Clear board and reset
 function reset(){
   clearInterval(moving);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -218,6 +161,7 @@ function reset(){
   board = new Board(boardWidth, boardHeight);
 }
 
+// Bring up instructions
 function help(){
   reset()
   ctx.font="20px Verdana";
@@ -229,6 +173,7 @@ function help(){
   ctx.fillText("Press the robot button to toggle AI for blue", canvas.width/2, 4 * canvas.height/5);
 }
 
+// Turn AI on or off
 function toggleAi(){
   aiOn = !aiOn
   if (aiOn){
@@ -238,11 +183,13 @@ function toggleAi(){
   }
 }
 
+// Begin game
 function start(){
   reset();
   moving = window.setInterval(function(){movePlayers()}, timeUnit);
 }
 
+// End game and print who won (name)
 function stop(name){
   clearInterval(moving);
 
@@ -252,6 +199,7 @@ function stop(name){
   ctx.fillText(name + " lost!", canvas.width/2, canvas.height/2);
 }
 
+// Key bindings
 function addKeyListen(){
   document.addEventListener('keydown', function(event) {
       if (!aiOn){
@@ -282,6 +230,7 @@ function addKeyListen(){
   });
 }
 
+// A position
 class Position{
   constructor(x, y, val){
     this.x = x;
@@ -290,6 +239,7 @@ class Position{
   }
 }
 
+// How many positions can search1 reach before search2
 function compareReach(search1, search2){
   count = 0
   for (let i = 0; i < search1.width; i++) {
@@ -321,6 +271,78 @@ function minmaxReach(search1, search2){
   return count1 * 3 - count2;
 }
 
+// Board class
+class Board {
+
+  // Initialize board to 0's (unvisited)
+  // 1's are visited
+  constructor(width, height) {
+    this.width = width;
+    this.height = height;
+    let matrix = new Array(width);
+
+    for (let i = 0; i < width; i++) {
+      matrix[i] = new Array(height);
+      for (let j = 0; j < height; j++) {
+        matrix[i][j] = 0;
+      }
+    }
+
+    this.matrix = matrix
+  }
+
+  // Determine if coordinates are within board
+  inBounds(x, y){
+    if (board.matrix[x] != undefined && board.matrix[x][y] != undefined){
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
+
+// Player class
+class Player {
+  // Initialize player
+  constructor(startx, starty, direction, color, trail, name) {
+    this.pos = [startx, starty];
+    this.dir = direction;
+    this.color = color;
+    this.name = name;
+    this.trail = trail;
+  }
+
+  // move player in current direction
+  move(){
+    ctx.fillStyle = this.trail
+    ctx.fillRect(this.pos[0]*scale, this.pos[1]*scale, scale - moveOffsetUnit, scale - moveOffsetUnit);
+
+    this.pos[0] += this.dir[0];
+    this.pos[1] += this.dir[1];
+    if (board.inBounds(this.pos[0],this.pos[1])){
+      board.matrix[this.pos[0]][this.pos[1]] += 1;
+    }
+  }
+
+  // Check if player has hit another
+  check(){
+    ctx.fillStyle = this.color
+    if (board.inBounds(this.pos[0],this.pos[1]) && board.matrix[this.pos[0]][this.pos[1]] === 1){
+      ctx.fillRect(this.pos[0] * scale, this.pos[1] * scale, scale - moveOffsetUnit, scale - moveOffsetUnit);
+      return true;
+    } else {
+      ctx.fillStyle = "#590059";
+      if (board.inBounds(this.pos[0],this.pos[1])){
+        ctx.fillRect(this.pos[0] * scale, this.pos[1] * scale, scale - moveOffsetUnit, scale - moveOffsetUnit);
+      } else {
+        ctx.fillRect((this.pos[0] - this.dir[0]) * scale, (this.pos[1] - this.dir[1]) * scale, scale - moveOffsetUnit, scale - moveOffsetUnit);
+      }
+      return false;
+    }
+  }
+}
+
+// Search Class
 class Search {
   constructor(startx, starty, curBoard) {
     let searchBoard = new Board(curBoard.width, curBoard.height)
