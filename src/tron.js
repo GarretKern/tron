@@ -4,7 +4,7 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 const timeUnit = 40; // time between each step
-const moveOffsetUnit = 1;
+const moveOffsetUnit = 0;
 const scale = 10; // scale * board size = canvas size
 const boardWidth = canvas.width/scale;
 const boardHeight = canvas.height/scale;
