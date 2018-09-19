@@ -1,12 +1,14 @@
+// Tron by Garret Kern
 
+// Declare consts for easy access to change
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
-const moveUnit = 10;
-const timeUnit = 45;
+const timeUnit = 40; // time between each step
 const moveOffsetUnit = 1;
 const scale = 10; // scale * board size = canvas size
-const boardWidth = canvas.width/moveUnit;
-const boardHeight = canvas.height/moveUnit;
+const boardWidth = canvas.width/scale;
+const boardHeight = canvas.height/scale;
+// Start positions
 const p1startx = 16;
 const p1starty = 30;
 const p2startx = 49;
@@ -59,7 +61,7 @@ class Player {
 
   move(){
     ctx.fillStyle = this.trail
-    ctx.fillRect(this.pos[0]*scale, this.pos[1]*scale, moveUnit - moveOffsetUnit, moveUnit - moveOffsetUnit);
+    ctx.fillRect(this.pos[0]*scale, this.pos[1]*scale, scale - moveOffsetUnit, scale - moveOffsetUnit);
 
     this.pos[0] += this.dir[0];
     this.pos[1] += this.dir[1];
@@ -71,14 +73,14 @@ class Player {
   check(){
     ctx.fillStyle = this.color
     if (board.inBounds(this.pos[0],this.pos[1]) && board.matrix[this.pos[0]][this.pos[1]] === 1){
-      ctx.fillRect(this.pos[0] * scale, this.pos[1] * scale, moveUnit - moveOffsetUnit, moveUnit - moveOffsetUnit);
+      ctx.fillRect(this.pos[0] * scale, this.pos[1] * scale, scale - moveOffsetUnit, scale - moveOffsetUnit);
       return true;
     } else {
       ctx.fillStyle = "#590059";
       if (board.inBounds(this.pos[0],this.pos[1])){
-        ctx.fillRect(this.pos[0] * scale, this.pos[1] * scale, moveUnit - moveOffsetUnit, moveUnit - moveOffsetUnit);
+        ctx.fillRect(this.pos[0] * scale, this.pos[1] * scale, scale - moveOffsetUnit, scale - moveOffsetUnit);
       } else {
-        ctx.fillRect((this.pos[0] - this.dir[0]) * scale, (this.pos[1] - this.dir[1]) * scale, moveUnit - moveOffsetUnit, moveUnit - moveOffsetUnit);
+        ctx.fillRect((this.pos[0] - this.dir[0]) * scale, (this.pos[1] - this.dir[1]) * scale, scale - moveOffsetUnit, scale - moveOffsetUnit);
       }
       return false;
     }
