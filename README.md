@@ -1,6 +1,6 @@
 # tron
 
-Desktop app created with electron.js based on the lighcycling game tron
+Web app based on the lighcycling game tron
 
 
 <p align="center">
