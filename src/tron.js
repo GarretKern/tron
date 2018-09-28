@@ -9,7 +9,7 @@ var aiOn = true;
 var players = [];
 
 // Declare consts for easy access to change
-const timeUnit = 100; // time between each step
+const timeUnit = 80; // time between each step
 const moveOffsetUnit = 1; // border left when moved
 const scale = 10; // scale * board size = canvas size
 const boardWidth = canvas.width/scale;
@@ -203,24 +203,24 @@ function stop(name){
 function addKeyListen(){
   document.addEventListener('keydown', function(event) {
       if (!aiOn){
-        if (event.keyCode == 37){
+        if (event.keyCode == 37 && players[1].dir != DIRECTION.RIGHT){
           players[1].dir = DIRECTION.LEFT;
-        } else if (event.keyCode == 38){
+        } else if (event.keyCode == 38 && players[1].dir != DIRECTION.UP){
           players[1].dir = DIRECTION.DOWN;
-        } else if (event.keyCode == 39){
+        } else if (event.keyCode == 39 && players[1].dir != DIRECTION.LEFT){
           players[1].dir = DIRECTION.RIGHT;
-        } else if (event.keyCode == 40){
+        } else if (event.keyCode == 40 && players[1].dir != DIRECTION.DOWN){
           players[1].dir = DIRECTION.UP;
         }
       }
 
-      if (event.keyCode == 65){
+      if (event.keyCode == 65 && players[0].dir != DIRECTION.RIGHT){
         players[0].dir = DIRECTION.LEFT;
-      } else if (event.keyCode == 83){
+      } else if (event.keyCode == 83 && players[0].dir != DIRECTION.DOWN){
         players[0].dir = DIRECTION.UP;
-      } else if (event.keyCode == 68){
+      } else if (event.keyCode == 68 && players[0].dir != DIRECTION.LEFT){
         players[0].dir = DIRECTION.RIGHT;
-      } else if (event.keyCode == 87){
+      } else if (event.keyCode == 87 && players[0].dir != DIRECTION.UP){
         players[0].dir = DIRECTION.DOWN;
       }
 
